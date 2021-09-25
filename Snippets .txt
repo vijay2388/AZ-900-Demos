@@ -1,0 +1,72 @@
+app.yml 
+-------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: my-image
+        image: nginx
+        ports:
+        - containerPort: 80
+		
+service.yml
+-----------
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+  selector:
+    app: my-app
+
+-------------------------------------------------------
+Powershell
+----------
+Get-AzResourceGroup | Format-Table
+
+ New-AzVm `
+ -ResourceGroupName "myRGPS" `
+ -Name "myVMPS" `
+ -Location "East US" `
+ -VirtualNetworkName "myVnetPS" `
+ -SubnetName "mySubnetPS" `
+ -SecurityGroupName "myNSGPS" `
+ -PublicIpAddressName "myPublicIpPS"
+ 
+Get-AzVM -name myVMPS -status | Format-Table -autosize
+  
+Stop-AzVM -ResourceGroupName myRGPS -Name myVMPS
+
+Get-AzVM -name myVMPS -status | Format-Table -autosize
+
+Azure CLI 
+---------
+ az group list --output table
+ 
+  az vm create \
+ --name myVMCLI \
+ --resource-group myRGCLI \
+ --image UbuntuLTS \
+ --location EastUS2 \
+ --admin-username azureuser \
+ --admin-password Pa$$w0rd1234
+ 
+  az vm show --resource-group myRGCLI --name myVMCLI --show-details --output table 
+  
+  az vm stop --resource-group myRGCLI --name myVMCLI
+   
+  az vm show --resource-group myRGCLI --name myVMCLI --show-details --output table  
